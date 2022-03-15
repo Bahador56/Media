@@ -1,0 +1,22 @@
+﻿@model List<File>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-2">
+        <a href="/Home/AddNewFolder" class="btn btn_primery" >
+            <i class="fas fa-folder-plus"></i>
+
+        </a>
+    </div>
+</div>
+
+@*<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-1">
+            <i class="fas fa-folder-open"></i>
+        </div>
+    }
+</div>*@
