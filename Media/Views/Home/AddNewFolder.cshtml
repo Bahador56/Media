@@ -1,7 +1,9 @@
 ﻿@model Folder
-
+@{
+    var parentId = (int?)ViewBag.ParentId;
+}
 <div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-12 offset-lg-2 offset-md-1 offset-sm-0">
+    <div class="col-lg-4 col-md-6 col-sm-12 offset-lg-2 offset-md-1 offset-sm-0" >
         <h3  class="text text-primary" >Add NewFolder</h3>
         <hr />
     </div>
@@ -10,35 +12,35 @@
 
 <div class="row">
     <form asp-action="AddNewFolder" asp-antiforgery="true" class="col-lg-4 col-md-6 col-sm-12 offset-lg-2 offset-md-1 offset-sm-0">
-
+        <input type="hidden" value="@parentId" name="parentId" />
         <div class="text text-danger" >
-     @*       <div asp-validation-summary=All></div>*@
+            <div asp-validation-summary=All></div>
         </div>
 
 
-        <div class="col form-group p-1 my-2">
+        <div class="col form-group p-1 my-2">   @*"col form-group p-1 my-2"*@
             @* <label class="label">Titel</label>*@
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Titel</span>
                 </div>
-                <input type="text" asp-for="Titel" class="form-control" aria-label="Titel" aria-describedby="inputGroup-sizing-sm"  data-toggle="tooltip" data-placement="top" title="Titel is required ">
+                <input type="text" asp-for="Title" class="form-control" aria-label="Titel" aria-describedby="inputGroup-sizing-sm"  data-toggle="tooltip" data-placement="top" title="Titel is required ">
               
             </div>
-                <span asp-validation-for="Titel" class="text-danger"></span>
+                <span asp-validation-for="Title" class="text-danger"></span>
 
         </div>
 
         <div class="col form-group p-1 my-2">
-            @* <label class="label">Description</label>*@
+             @*<label class="label">Description</label>*@
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
                 </div>
-                <input type="text" asp-for="Description" class="form-control" aria-label="Description" aria-describedby="inputGroup-sizing-sm" data-toggle="tooltip" data-placement="top" title="Description is required ">
+                <input type="text" asp-for="Description" class="form-control" aria-label="Description" aria-describedby="inputGroup-sizing-sm" data-toggle="tooltip" data-placement="top" title="Description is required " />
                
             </div>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            @*<span asp-validation-for="Description" class="text-danger"></span>*@
         </div>
 
         <div class="col form-group p-1 my-2">

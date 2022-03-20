@@ -30,14 +30,14 @@ namespace Media.Models.Entity
     {
         public int Id { get; set; }
         [Required (ErrorMessage ="ورود عنوان الزامی است")]
-        [Range(5,50,ErrorMessage =" حداقل {1} کاراکتر حداکثر {2} کاراکتر")]
-        public string Titel { get; set; }
-        [Required(ErrorMessage = "ورود توضیحات الزامی است")]
-        public string Description { get; set; }
+        public string Title { get; set; }
+        //[Required(ErrorMessage = "ورود توضیحات الزامی است")]
+        public string? Description { get; set; }
         public DateTime CreateAt { get; set; }
         public Guid CreatorId { get; set; }
         public int? ParentId { get; set; }
         public virtual Folder? Parent { get; set; }
+        public virtual ICollection<Folder>? Childs { get; set; }
         public virtual List<File>? Files { get; set; }
     }
 }
