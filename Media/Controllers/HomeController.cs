@@ -42,8 +42,15 @@ namespace Media.Controllers
             {
                 if (_db.Folders.Any(x => x.ParentId == model.ParentId && x.Title == model.Title))
                 {
-                    ModelState.AddModelError("Entity Error", "Title and parent Folder is not unique");
-                    return View(model);
+                    var list = _db.Folders.Where(x => x.ParentId == model.ParentId && x.Title == model.Title).ToList();
+                    foreach (var item in list)
+                    {
+                        if (item.Title == model.Title)
+                        {
+                            ModelState.AddModelError("Entity Error", "Title and parent Folder is not unique");
+                            return View(model);
+                        }
+                    }
                 }
 
                 _db.Folders.Add(model);
