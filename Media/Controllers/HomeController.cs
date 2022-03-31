@@ -79,7 +79,65 @@ namespace Media.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult RenameFolder(string folderTitle, int folderId)
+        {
+            var folders = _db.Folders.Where(x => x.Title == folderTitle).ToList();
+            foreach (var item in folders)
+            {
+                if (item.Title == folderTitle)
+                {
+                    return Json(new { isSuccess = false, message = "Title used by another folder!" });
+                }
+            }
+            var folder = _db.Folders.FirstOrDefault(x => x.Id == folderId);
+            folder.Title = folderTitle;
+            var saveResult = _db.SaveChanges();
+            if (saveResult > 0)
+                return Json(new { isSuccess = true, message = "Successfully changed" });
+            return Json(new { isSuccess = false, message = "Error in saveing change happend!" });
+        }
 
+        public IActionResult Uploadfile(IList<IFormFile> files)
+        {
+            foreach (var formFile in files)
+            {
+                try
+                {
+                    if (formFile.Length > 0)
+                    {
+                        var filePath = Path.Combine(@"E:\Poroject Bahador\Media\Media\wwwroot\Files", DateTime.Now.Ticks.ToString() + formFile.FileName);
+                        long size = 0;
+                        using (var stream = System.IO.File.Create(filePath))
+                        {
+                            formFile.CopyTo(stream);
+                            size=stream.Length;
+                        }
+                        var fileIndb = new Media.Models.Entity.File
+                        {
+                            Title = formFile.FileName,
+                            Caption = "",
+                            CreateAt = DateTime.Now,
+                            Description = "",
+                           FolderId=null,
+                           FileTypeId=1,
+                           Format=Path.GetExtension(formFile.FileName),
+                           Path=Path.GetFullPath(filePath),
+                           Size=Convert.ToInt32(size)
+                        };
+                        _db.Files.Add(fileIndb);
+                        _db.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            } 
+            return Json(true);
+        }
 
 
 

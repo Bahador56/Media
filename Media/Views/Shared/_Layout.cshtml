@@ -40,6 +40,24 @@
 
     <footer class="border-top footer text-muted">
     </footer>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="uploadNewFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadNewFileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadNewFileModalLabel">Upload New Files</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="file" id="fileInput" />
+                    <span class="upload-file-span">
+                        <button type="button" onclick="uploadfile(null)" class="btn btn-warning">Upload!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

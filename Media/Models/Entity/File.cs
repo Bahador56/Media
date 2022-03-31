@@ -15,8 +15,8 @@ namespace Media.Models.Entity
         public string Caption { get; set; }
         public int FileTypeId { get; set; }
         public virtual FileType FileType { get; set; }
-        public int FolderId { get; set; }
-        public virtual Folder Folder  { get; set; }
+        public int? FolderId { get; set; }
+        public virtual Folder? Folder  { get; set; }
 
     }
     public class FileType
