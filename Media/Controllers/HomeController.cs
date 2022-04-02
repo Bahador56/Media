@@ -12,11 +12,13 @@ namespace Media.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
+        private readonly IWebHostEnvironment _env;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db,IWebHostEnvironment env)
         {
             _logger = logger;
             _db = db;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -98,32 +100,63 @@ namespace Media.Controllers
             return Json(new { isSuccess = false, message = "Error in saveing change happend!" });
         }
 
-        public IActionResult Uploadfile(IList<IFormFile> files)
+        public IActionResult Uploadfile(IList<IFormFile> files,int? folderId)
         {
             foreach (var formFile in files)
             {
+                var rootPath = _env.WebRootPath;
                 try
                 {
                     if (formFile.Length > 0)
                     {
-                        var filePath = Path.Combine(@"E:\Poroject Bahador\Media\Media\wwwroot\Files", DateTime.Now.Ticks.ToString() + formFile.FileName);
+                        var filenameFerfix = DateTime.Now.Ticks.ToString();
+                        var filePath = Path.Combine(@$"{rootPath}\Files", filenameFerfix + formFile.FileName);
                         long size = 0;
                         using (var stream = System.IO.File.Create(filePath))
                         {
                             formFile.CopyTo(stream);
                             size=stream.Length;
                         }
+                        var  fileTypeId = 0;
+
+                        switch(Path.GetExtension(formFile.FileName))
+                        {
+                            case ".txt":
+                                fileTypeId = 1;
+                                break;
+                            case ".jpg":
+                            case ".png":
+                            case ".gif":
+                                fileTypeId = 2;
+                                break;
+                            case ".mp4":
+                            case ".mkv":
+                            case ".3gp":
+                                fileTypeId = 3;
+                                break;
+                            case ".mp3":
+                            case ".acc":
+                                fileTypeId = 4;
+                                break;
+
+                            default:
+                                throw new Exception("File Format not acceptable");
+                        }
+
+
                         var fileIndb = new Media.Models.Entity.File
                         {
                             Title = formFile.FileName,
                             Caption = "",
                             CreateAt = DateTime.Now,
                             Description = "",
-                           FolderId=null,
-                           FileTypeId=1,
+                           FolderId= folderId,
+                           FileTypeId= fileTypeId,
                            Format=Path.GetExtension(formFile.FileName),
-                           Path=Path.GetFullPath(filePath),
-                           Size=Convert.ToInt32(size)
+                           Path= @$"{rootPath}\Files",
+                           Size=Convert.ToInt32(size),
+                           FileNameOnStarage= filenameFerfix + formFile.FileName
+
                         };
                         _db.Files.Add(fileIndb);
                         _db.SaveChanges();

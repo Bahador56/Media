@@ -6,6 +6,7 @@ namespace Media.Models.Entity
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string FileNameOnStarage { get; set; }
         public DateTime CreateAt { get; set; }
         public string? Location { get; set; }
         public string Format { get; set; }

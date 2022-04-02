@@ -81,4 +81,30 @@ function uploadfile(folderId) {
         }
     })
 }
+function showPreviewFile(title, format, href) {
+    $('#previewFileModal .modal-title').text(title);
+    let body = '';
+    if (format === '.jpg') {
+        body = `<img src="${href}" style="margin-left:5%;width:90%" />`;
+    } else if (format === '.pdf') {
+        body = `<object style="margin-left:5%;width:90%" data="${href}"></object>`;
+    } else if (format === '.mp4') {
+        body = `<video style="margin: 5%;" controls>
+                      <source src="${href}" type="video/mp4">
+                      Your browser does not support the video tag.
+               </video>`
+
+    } else if (format === '.txt') {
+        body = `<object style="margin-left:5%;width:90%" data="${href}"></object>`;
+    }
+    else if (format === '.mp3') {
+        body = `<audio controls>
+                     <source src="${href}" type="audio/mpeg">
+                     Your browser does not support the audio element.
+                </audio>`
+    }
+
+    $('#previewFileModal .modal-body').html(body);
+    $('#previewFileModal').modal('show');
+}
 

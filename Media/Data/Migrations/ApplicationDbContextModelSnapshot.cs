@@ -41,6 +41,10 @@ namespace Media.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FileNameOnStarage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("FileTypeId")
                         .HasColumnType("int");
 
